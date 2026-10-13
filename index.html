@@ -54,6 +54,19 @@
         html {
             scroll-behavior: smooth;
         }
+
+        /* Keep the branch/year popup completely hidden until a resource card is clicked */
+        .modal-hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .modal-visible {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
