@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiplomaLearn - Student Resource Portal</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration for Custom Font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563eb', // Blue 600
+                        secondary: '#4f46e5', // Indigo 600
+                        accent: '#0ea5e9', // Sky 500
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-graduation-cap text-sm"></i>
+                    </div>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">Diploma<span class="text-primary">Learn</span></span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#" class="text-primary font-medium hover:text-secondary transition-colors">Home</a>
+                    <a href="#resources" class="text-gray-600 font-medium hover:text-primary transition-colors">Resources</a>
+                    <a href="#" class="text-gray-600 font-medium hover:text-primary transition-colors">Community</a>
+                    <a href="#" class="text-gray-600 font-medium hover:text-primary transition-colors">About</a>
+                    <button class="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2 rounded-full font-medium transition-all shadow-sm hover:shadow">
+                        Sign In
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-4 space-y-1 shadow-lg absolute w-full">
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-primary bg-blue-50">Home</a>
+            <a href="#resources" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Resources</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Community</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">About</a>
+            <button class="w-full text-left mt-4 px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 hover:bg-gray-800">
+                Sign In
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-slate-900 via-primary to-indigo-900 text-white overflow-hidden py-24 sm:py-32">
+        <!-- Background Pattern (Subtle) -->
+        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-blue-500/30 border border-blue-400/30 text-blue-100 text-sm font-semibold mb-6 backdrop-blur-sm">
+                Empowering Diploma Students
+            </span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 max-w-4xl leading-tight">
+                Your Ultimate Hub for <br class="hidden sm:block" />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-accent">Academic Excellence</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-blue-100 mb-10 max-w-2xl font-light">
+                Access previous year papers, high-quality notes, model questions, and tailored learning segments designed specifically for diploma curriculums.
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="w-full max-w-2xl bg-white p-2 rounded-2xl shadow-xl flex items-center relative z-10 transition-transform focus-within:scale-[1.02] duration-300">
+                <i class="fa-solid fa-search text-gray-400 pl-4 text-lg"></i>
+                <input type="text" id="searchInput" placeholder="Search for subjects, topics, or papers..." class="w-full py-3 px-4 outline-none text-gray-700 text-lg bg-transparent">
+                <button class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-xl font-semibold transition-colors shadow-md flex-shrink-0">
+                    Search
+                </button>
+            </div>
+            
+            <!-- Quick Tags -->
+            <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm">
+                <span class="text-blue-200">Trending:</span>
+                <a href="#" class="text-white hover:text-blue-300 underline underline-offset-4 decoration-blue-400/50">Applied Mathematics</a>
+                <a href="#" class="text-white hover:text-blue-300 underline underline-offset-4 decoration-blue-400/50">Engineering Drawing</a>
+                <a href="#" class="text-white hover:text-blue-300 underline underline-offset-4 decoration-blue-400/50">C Programming</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Resources Section -->
+    <main id="resources" class="flex-grow py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Study Resources</h2>
+                <div class="w-20 h-1 bg-primary mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Everything you need to ace your diploma exams, organized and easily accessible in one place.</p>
+            </div>
+
+            <!-- CSS Grid for Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Previous Year Papers -->
+                <div class="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10 group-hover:bg-blue-100 transition-colors duration-300"></div>
+                    <div class="w-14 h-14 bg-blue-100 text-primary rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Previous Year Papers</h3>
+                    <p class="text-gray-600 mb-6 flex-grow leading-relaxed">
+                        Access a comprehensive archive of past board exam papers. Analyze trends, understand question formats, and practice effectively.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-primary font-semibold group-hover:text-secondary transition-colors">
+                        Explore Papers <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Card 2: Model Papers -->
+                <div class="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-bl-full -z-10 group-hover:bg-indigo-100 transition-colors duration-300"></div>
+                    <div class="w-14 h-14 bg-indigo-100 text-secondary rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Model Papers</h3>
+                    <p class="text-gray-600 mb-6 flex-grow leading-relaxed">
+                        Solve expertly curated mock tests and model papers designed according to the latest syllabus and exam blueprints.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-secondary font-semibold group-hover:text-primary transition-colors">
+                        Try Model Papers <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Card 3: Notes -->
+                <div class="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-sky-50 rounded-bl-full -z-10 group-hover:bg-sky-100 transition-colors duration-300"></div>
+                    <div class="w-14 h-14 bg-sky-100 text-accent rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Study Notes</h3>
+                    <p class="text-gray-600 mb-6 flex-grow leading-relaxed">
+                        Download concise, easy-to-understand chapter-wise notes. Perfect for quick revision and deep subject understanding.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-accent font-semibold group-hover:text-sky-600 transition-colors">
+                        View Notes <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Card 4: Important Questions -->
+                <div class="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-rose-50 rounded-bl-full -z-10 group-hover:bg-rose-100 transition-colors duration-300"></div>
+                    <div class="w-14 h-14 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-regular fa-circle-question"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Important Questions</h3>
+                    <p class="text-gray-600 mb-6 flex-grow leading-relaxed">
+                        Focus your preparation on frequently asked questions and high-weightage topics curated by experienced faculty.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-rose-600 font-semibold group-hover:text-rose-700 transition-colors">
+                        View Questions <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Card 5: Exam-Oriented Learning Segments -->
+                <div class="group bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col relative overflow-hidden md:col-span-2 lg:col-span-1">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-10 group-hover:bg-emerald-100 transition-colors duration-300"></div>
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Exam-Oriented Segments</h3>
+                    <p class="text-gray-600 mb-6 flex-grow leading-relaxed">
+                        Interactive mini-lessons, video tutorials, and crash courses tailored specifically for last-minute exam preparation.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-emerald-600 font-semibold group-hover:text-emerald-700 transition-colors">
+                        Start Learning <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+                
+                <!-- Promotional/Call to Action Card (Fills empty grid space nicely) -->
+                <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-white shadow-lg flex flex-col justify-center items-center text-center transform transition-transform hover:scale-[1.02] duration-300 md:col-span-1 lg:col-span-1">
+                    <i class="fa-solid fa-bell text-4xl text-yellow-400 mb-4 animate-bounce" style="animation-duration: 2s;"></i>
+                    <h3 class="text-2xl font-bold mb-3">Exam Alerts</h3>
+                    <p class="text-gray-300 mb-6 text-sm">Sign up to receive timely notifications about exam timetables, result declarations, and new resource uploads.</p>
+                    <button class="bg-white text-gray-900 hover:bg-gray-100 w-full py-3 rounded-xl font-bold transition-colors">
+                        Subscribe Now
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-graduation-cap text-primary text-xl"></i>
+                <span class="font-bold text-lg text-gray-900">Diploma<span class="text-primary">Learn</span></span>
+            </div>
+            <p class="text-gray-500 text-sm text-center md:text-left">
+                &copy; <span id="year"></span> DiplomaLearn. All rights reserved. Designed for Diploma Students.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa-brands fa-twitter text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors"><i class="fa-brands fa-discord text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Mobile Menu Toggle Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = mobileMenuBtn.querySelector('i');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                
+                // Toggle between hamburger and close icon
+                if (mobileMenu.classList.contains('hidden')) {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
+                } else {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-xmark');
+                }
+            });
+
+            // Optional: Close mobile menu when clicking a link inside it
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
+                });
+            });
+
+            // Search Interaction (Simulated)
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = searchInput.nextElementSibling;
+
+            const handleSearch = () => {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // In a real app, this would trigger an API call or redirect
+                    console.log(`Searching for: ${query}`);
+                    
+                    // Visual feedback setup (just for prototype)
+                    const originalText = searchButton.innerText;
+                    searchButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+                    
+                    setTimeout(() => {
+                        searchButton.innerText = originalText;
+                        // Clear after simulation
+                        searchInput.value = '';
+                    }, 800);
+                }
+            };
+
+            searchButton.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
