@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
     const overlay = document.getElementById('selection-overlay');
-    const paperBrowser = document.getElementById('paper-browser');
+    let paperBrowser = document.getElementById('paper-browser');
     const mobileMenu = document.getElementById('mobile-menu');
     const originalHome = app.innerHTML;
     const names = {'model-papers':'Model Papers','study-notes':'Study Notes','important-questions':'Important Questions','exam-oriented-segments':'Exam-oriented Segments','curriculum':'Curriculum'};
@@ -27,7 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     document.getElementById('year').textContent = new Date().getFullYear();
-    function showSelection(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');renderPaperLoading();getPaperRecords().then(records=>renderPaperBranches(records)).catch(error=>renderPaperError(error));}
+    function showSelection(){
+        app.innerHTML='<section class="paper-page"><div class="paper-page-shell"><a class="back-link paper-home-back" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to home</a><div class="eyebrow"><span></span> Previous year papers</div><h1>Find a paper.</h1><p class="paper-page-intro">Choose a branch to explore the organized paper collection.</p><div id="paper-browser" class="paper-browser"></div></div></section>';
+        paperBrowser=document.getElementById('paper-browser');
+        renderPaperLoading();
+        getPaperRecords().then(records=>renderPaperBranches(records)).catch(error=>renderPaperError(error));
+        window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function paperPush(view, details={}){history.pushState({paperView:view,...details},'',`#previous-year-papers`);renderPaperView({paperView:view,...details});}
+    function renderPaperView(state){
+        if(state.paperView==='branch') getPaperRecords().then(records=>renderBranchPapers(records,state.branch)).catch(error=>renderPaperError(error));
+        else getPaperRecords().then(records=>renderPaperBranches(records)).catch(error=>renderPaperError(error));
+    }
+    function paperGoBack(){if(history.state?.paperView) history.back();else navigate('resources');}
     function closeSelection(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true')}
     function navigate(route){const nextHash=`#${route}`;if(window.location.hash===nextHash){renderRoute()}else{window.location.hash=route}}
     function renderRoute(){
@@ -84,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderPaperBranches(records){
         const branches=paperOptions(records,'branch');
         paperBrowser.innerHTML=`<div class="paper-step-head"><span class="step-number">01</span><div><h3>Choose a branch</h3><p>${branches.length} branch${branches.length===1?'':'es'} available</p></div></div>${branches.length?paperChoiceGrid(branches,'branch',value=>`${records.filter(record=>normalizeValue(record.branch)===normalizeValue(value)).length} papers`):'<div class="empty-state paper-empty"><i class="fa-regular fa-folder-open"></i><h3>No branches available</h3><p>There are no usable paper records in the data file.</p></div>'}`;
-        paperBrowser.querySelectorAll('[data-paper-branch]').forEach(button=>button.addEventListener('click',()=>renderBranchPapers(records,button.dataset.paperBranch)));
+        paperBrowser.querySelectorAll('[data-paper-branch]').forEach(button=>button.addEventListener('click',()=>paperPush('branch',{branch:button.dataset.paperBranch})));
     }
     function renderBranchPapers(records,branch){
         const branchRecords=records.filter(record=>normalizeValue(record.branch)===normalizeValue(branch));
         const renderList=(items,emptyTitle='No matching papers',emptyText='Try a different search term.')=>items.length?items.map(renderPaperCard).join(''):`<div class="empty-state paper-empty"><i class="fa-regular fa-file-lines"></i><h3>${emptyTitle}</h3><p>${emptyText}</p></div>`;
         paperBrowser.innerHTML=`${paperBack('Branches')}<div class="paper-step-head"><span class="step-number">02</span><div><h3>All papers · ${escapeHtml(paperOptionLabel(branch,'branch'))}</h3><p>${branchRecords.length} paper${branchRecords.length===1?'':'s'} across all available semesters and subjects</p></div></div><div class="paper-toolbar">${paperSearch('Search papers, subjects, years') }<label class="sort-control">Sort <select id="paper-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div><div id="paper-list" class="paper-list">${renderList(branchRecords,'No papers found','This branch does not have any usable paper URLs yet.')}</div>`;
-        document.getElementById('paper-back').addEventListener('click',()=>renderPaperBranches(records));
+        document.getElementById('paper-back').addEventListener('click',paperGoBack);
         const repaint=()=>{const term=normalizeValue(document.getElementById('paper-search-input').value);const direction=document.getElementById('paper-sort').value==='oldest'?1:-1;const visible=branchRecords.filter(p=>normalizeValue(`${p.title} ${p.subject} ${p.year} ${p.semester} ${p.paper_type}`).includes(term)).sort((a,b)=>direction*(paperYear(a)-paperYear(b))||String(a.url).localeCompare(String(b.url)));document.getElementById('paper-list').innerHTML=renderList(visible);};
         document.getElementById('paper-search-input')?.addEventListener('input',repaint);document.getElementById('paper-sort')?.addEventListener('change',repaint);
     }
@@ -174,12 +186,14 @@ document.addEventListener('DOMContentLoaded', () => {
         content.innerHTML=`<button class="step-back" id="curriculum-back"><i class="fa-solid fa-arrow-left"></i> Branches</button><div class="selection-step"><span class="step-number">03</span><div><h2>Curriculum documents</h2><p>${subtitle}</p></div></div><div class="document-grid">${databaseDocuments}${officialDocument}</div>`;
         document.getElementById('curriculum-back').addEventListener('click',()=>renderBranches(sourceRecords,regulation));
     }
-    function bindCards(){document.querySelectorAll('[data-resource]').forEach(card=>card.addEventListener('click',event=>{if(card.dataset.resource==='previous-year-papers'){event.preventDefault();showSelection()}else if(card.dataset.resource==='curriculum'){event.preventDefault();navigate('curriculum')}}))}
+    function bindCards(){document.querySelectorAll('[data-resource]').forEach(card=>card.addEventListener('click',event=>{if(card.dataset.resource==='previous-year-papers'){event.preventDefault();navigate('previous-year-papers')}else if(card.dataset.resource==='curriculum'){event.preventDefault();navigate('curriculum')}}))}
     document.getElementById('close-selection').addEventListener('click',closeSelection);
     overlay.addEventListener('click',event=>{if(event.target===overlay)closeSelection()});
     document.addEventListener('keydown',event=>{if(event.key==='Escape')closeSelection()});
     document.addEventListener('click',event=>{if(event.target.closest('.back-link')){event.preventDefault();navigate('resources')}});
     document.getElementById('menu-toggle').addEventListener('click',()=>mobileMenu.classList.toggle('open'));
     mobileMenu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>mobileMenu.classList.remove('open')));
-    window.addEventListener('hashchange',renderRoute);bindCards();
+    window.addEventListener('hashchange',renderRoute);
+    window.addEventListener('popstate',event=>{if(window.location.hash==='#previous-year-papers') renderPaperView(event.state||{paperView:'branches'});else renderRoute();});
+    bindCards();
 });
