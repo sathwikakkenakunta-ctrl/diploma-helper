@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('paper-form');
     const mobileMenu = document.getElementById('mobile-menu');
     const originalHome = app.innerHTML;
-    const names = {'model-papers':'Model Papers','study-notes':'Study Notes','important-questions':'Important Questions','exam-oriented-segments':'Exam-oriented Segments'};
+    const names = {'model-papers':'Model Papers','study-notes':'Study Notes','important-questions':'Important Questions','exam-oriented-segments':'Exam-oriented Segments','curriculum':'Curriculum'};
     document.getElementById('year').textContent = new Date().getFullYear();
     function showSelection(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.getElementById('year-select').focus()}
     function closeSelection(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true')}
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(route==='previous-year-papers'){app.innerHTML=originalHome;bindCards();showSelection();return}
         if(names[route]){app.innerHTML=`<section class="coming-soon"><div class="soon-icon"><i class="fa-solid fa-hourglass-half"></i></div><div class="eyebrow" style="justify-content:center;margin-top:28px"><span></span> ${names[route]}</div><h1>Coming soon!</h1><p>We’re preparing this resource for your study desk.</p><a class="back-link" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to resources</a></section>`;window.scrollTo({top:0,behavior:'smooth'});return}
         app.innerHTML=originalHome;bindCards();
+        if(route==='resources') setTimeout(()=>document.getElementById('resources')?.scrollIntoView({behavior:'smooth'}),0);
     }
     function bindCards(){document.querySelectorAll('[data-resource]').forEach(card=>card.addEventListener('click',event=>{if(card.dataset.resource==='previous-year-papers'){event.preventDefault();showSelection()}}))}
     document.getElementById('close-selection').addEventListener('click',closeSelection);
