@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getPaperRecords(){
         if(paperCache.records)return Promise.resolve(paperCache.records);
         if(paperCache.promise)return paperCache.promise;
-        paperCache.promise=fetch('grouped_papers.json',{cache:'force-cache'}).then(response=>{
+        paperCache.promise=fetch('./grouped_papers.json',{cache:'no-store'}).then(response=>{
             if(!response.ok)throw new Error(`Paper data could not be loaded (HTTP ${response.status}).`);
             return response.json();
         }).then(source=>{

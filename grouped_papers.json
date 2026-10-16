@@ -6190,81 +6190,9 @@
           "title": "Download ECE 2 SEM ELECTRICAL TECHNOLOGY 5250 C 16S NOV 2019",
           "url": "https://www.sbtetonline.com/papers/ece-2-sem-electrical-technology-5250-c-16s-nov-2019.pdf"
         }
-      ],
-      "ECE BM ES EV 2 SEM SEMICONDUCTOR DEVICES 6239 C 18 AUG 2021": [
-        {
-          "branch": "ECE",
-          "semester": "2",
-          "subject": "ECE BM ES EV 2 SEM SEMICONDUCTOR DEVICES 6239 C 18 AUG 2021",
-          "subject_code": "",
-          "year": "2021",
-          "paper_type": "Other Papers",
-          "title": "Download ECE BM ES EV 2 SEM SEMICONDUCTOR DEVICES 6239 C 18 AUG 2021",
-          "url": "https://www.sbtetonline.com/papers/ece-bm-es-ev-2-sem-semiconductor-devices-6239-c-18-aug-2021.pdf"
-        }
       ]
     },
     "3": {
-      "BM EC EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JUN 2023": [
-        {
-          "branch": "ECE",
-          "semester": "3",
-          "subject": "BM EC EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JUN 2023",
-          "subject_code": "",
-          "year": "2023",
-          "paper_type": "Other Papers",
-          "title": "Download BM EC EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JUN 2023",
-          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-3-sem-electronic-devices-and-circuits-6333-c-18-jun-2023.pdf"
-        }
-      ],
-      "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2022": [
-        {
-          "branch": "ECE",
-          "semester": "3",
-          "subject": "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2022",
-          "subject_code": "",
-          "year": "2022",
-          "paper_type": "Other Papers",
-          "title": "Download BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2022",
-          "url": "https://www.sbtetonline.com/papers/bm-ec-es-ev-3-sem-network-analysis-6335-c-18-jun-2022.pdf"
-        }
-      ],
-      "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2023": [
-        {
-          "branch": "ECE",
-          "semester": "3",
-          "subject": "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2023",
-          "subject_code": "",
-          "year": "2023",
-          "paper_type": "Other Papers",
-          "title": "Download BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2023",
-          "url": "https://www.sbtetonline.com/papers/bm-ec-es-ev-3-sem-network-analysis-6335-c-18-jun-2023.pdf"
-        }
-      ],
-      "BM ECE EI ES EV 3 SEM DIGITAL ELECTRONICS 6332 C 18 JAN 2022": [
-        {
-          "branch": "ECE",
-          "semester": "3",
-          "subject": "BM ECE EI ES EV 3 SEM DIGITAL ELECTRONICS 6332 C 18 JAN 2022",
-          "subject_code": "",
-          "year": "2022",
-          "paper_type": "Other Papers",
-          "title": "Download BM ECE EI ES EV 3 SEM DIGITAL ELECTRONICS 6332 C 18 JAN 2022",
-          "url": "https://www.sbtetonline.com/papers/bm-ece-ei-es-ev-3-sem-digital-electronics-6332-c-18-jan-2022.pdf"
-        }
-      ],
-      "BM ECE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JAN 2022": [
-        {
-          "branch": "ECE",
-          "semester": "3",
-          "subject": "BM ECE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JAN 2022",
-          "subject_code": "",
-          "year": "2022",
-          "paper_type": "Other Papers",
-          "title": "Download BM ECE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JAN 2022",
-          "url": "https://www.sbtetonline.com/papers/bm-ece-ei-es-ev-3-sem-electronic-devices-and-circuits-6333-c-18-jan-2022.pdf"
-        }
-      ],
       "EC 3 SEM DIGITAL ELECTRONICS C 21 OCT 2022": [
         {
           "branch": "ECE",
@@ -6865,18 +6793,6 @@
           "url": "https://www.sbtetonline.com/papers/ece-3-sem-network-analysis-c16-nov-2019.pdf"
         }
       ],
-      "ECE BM ES EV EI 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 FEB 2021": [
-        {
-          "branch": "ECE",
-          "semester": "3",
-          "subject": "ECE BM ES EV EI 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 FEB 2021",
-          "subject_code": "",
-          "year": "2021",
-          "paper_type": "Other Papers",
-          "title": "Download ECE BM ES EV EI 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 FEB 2021",
-          "url": "https://www.sbtetonline.com/papers/ece-bm-es-ev-ei-3-sem-electronic-devices-and-circuits-6333-c-18-feb-2021.pdf"
-        }
-      ],
       "ECE ES EV EI 3 SEM DIGITAL ELECTRONICS 6332 C 18 FEB 2021": [
         {
           "branch": "ECE",
@@ -6891,42 +6807,6 @@
       ]
     },
     "4": {
-      "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 DEC 2022": [
-        {
-          "branch": "ECE",
-          "semester": "4",
-          "subject": "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 DEC 2022",
-          "subject_code": "",
-          "year": "2022",
-          "paper_type": "Other Papers",
-          "title": "Download BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 DEC 2022",
-          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-4-sem-microcontroller-programming-6433-c-18-dec-2022.pdf"
-        }
-      ],
-      "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2022": [
-        {
-          "branch": "ECE",
-          "semester": "4",
-          "subject": "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2022",
-          "subject_code": "",
-          "year": "2022",
-          "paper_type": "Other Papers",
-          "title": "Download BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2022",
-          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-4-sem-microcontroller-programming-6433-c-18-jun-2022.pdf"
-        }
-      ],
-      "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2023": [
-        {
-          "branch": "ECE",
-          "semester": "4",
-          "subject": "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2023",
-          "subject_code": "",
-          "year": "2023",
-          "paper_type": "Other Papers",
-          "title": "Download BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2023",
-          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-4-sem-microcontroller-programming-6433-c-18-jun-2023.pdf"
-        }
-      ],
       "EC 4 SEM DIGITAL COMMUNICATION 6435 C 18 JUN 2023": [
         {
           "branch": "ECE",
@@ -8267,6 +8147,18 @@
       ]
     },
     "2": {
+      "ECE BM ES EV 2 SEM SEMICONDUCTOR DEVICES 6239 C 18 AUG 2021": [
+        {
+          "branch": "Electrical",
+          "semester": "2",
+          "subject": "ECE BM ES EV 2 SEM SEMICONDUCTOR DEVICES 6239 C 18 AUG 2021",
+          "subject_code": "",
+          "year": "2021",
+          "paper_type": "Other Papers",
+          "title": "Download ECE BM ES EV 2 SEM SEMICONDUCTOR DEVICES 6239 C 18 AUG 2021",
+          "url": "https://www.sbtetonline.com/papers/ece-bm-es-ev-2-sem-semiconductor-devices-6239-c-18-aug-2021.pdf"
+        }
+      ],
       "EEE 2 SEM ELECTRICAL ENGINEERING MATERIALS 2 5256 C 16S DEC 2020": [
         {
           "branch": "Electrical",
@@ -8315,6 +8207,78 @@
           "paper_type": "Other Papers",
           "title": "Download BM CPS EC EE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 13024 C 21 OCT 2022",
           "url": "https://www.sbtetonline.com/papers/bm-cps-ec-ee-ei-es-ev-3-sem-electronic-devices-and-circuits-13024-c-21-oct-2022.pdf"
+        }
+      ],
+      "BM EC EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JUN 2023": [
+        {
+          "branch": "Electrical",
+          "semester": "3",
+          "subject": "BM EC EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JUN 2023",
+          "subject_code": "",
+          "year": "2023",
+          "paper_type": "Other Papers",
+          "title": "Download BM EC EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JUN 2023",
+          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-3-sem-electronic-devices-and-circuits-6333-c-18-jun-2023.pdf"
+        }
+      ],
+      "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2022": [
+        {
+          "branch": "Electrical",
+          "semester": "3",
+          "subject": "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2022",
+          "subject_code": "",
+          "year": "2022",
+          "paper_type": "Other Papers",
+          "title": "Download BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2022",
+          "url": "https://www.sbtetonline.com/papers/bm-ec-es-ev-3-sem-network-analysis-6335-c-18-jun-2022.pdf"
+        }
+      ],
+      "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2023": [
+        {
+          "branch": "Electrical",
+          "semester": "3",
+          "subject": "BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2023",
+          "subject_code": "",
+          "year": "2023",
+          "paper_type": "Other Papers",
+          "title": "Download BM EC ES EV 3 SEM NETWORK ANALYSIS 6335 C 18 JUN 2023",
+          "url": "https://www.sbtetonline.com/papers/bm-ec-es-ev-3-sem-network-analysis-6335-c-18-jun-2023.pdf"
+        }
+      ],
+      "BM ECE EI ES EV 3 SEM DIGITAL ELECTRONICS 6332 C 18 JAN 2022": [
+        {
+          "branch": "Electrical",
+          "semester": "3",
+          "subject": "BM ECE EI ES EV 3 SEM DIGITAL ELECTRONICS 6332 C 18 JAN 2022",
+          "subject_code": "",
+          "year": "2022",
+          "paper_type": "Other Papers",
+          "title": "Download BM ECE EI ES EV 3 SEM DIGITAL ELECTRONICS 6332 C 18 JAN 2022",
+          "url": "https://www.sbtetonline.com/papers/bm-ece-ei-es-ev-3-sem-digital-electronics-6332-c-18-jan-2022.pdf"
+        }
+      ],
+      "BM ECE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JAN 2022": [
+        {
+          "branch": "Electrical",
+          "semester": "3",
+          "subject": "BM ECE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JAN 2022",
+          "subject_code": "",
+          "year": "2022",
+          "paper_type": "Other Papers",
+          "title": "Download BM ECE EI ES EV 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 JAN 2022",
+          "url": "https://www.sbtetonline.com/papers/bm-ece-ei-es-ev-3-sem-electronic-devices-and-circuits-6333-c-18-jan-2022.pdf"
+        }
+      ],
+      "ECE BM ES EV EI 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 FEB 2021": [
+        {
+          "branch": "Electrical",
+          "semester": "3",
+          "subject": "ECE BM ES EV EI 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 FEB 2021",
+          "subject_code": "",
+          "year": "2021",
+          "paper_type": "Other Papers",
+          "title": "Download ECE BM ES EV EI 3 SEM ELECTRONIC DEVICES AND CIRCUITS 6333 C 18 FEB 2021",
+          "url": "https://www.sbtetonline.com/papers/ece-bm-es-ev-ei-3-sem-electronic-devices-and-circuits-6333-c-18-feb-2021.pdf"
         }
       ],
       "EE 3 SEM DC MACHINES AND BATTERIES 6337 C 18 NOV 2021": [
@@ -8651,6 +8615,44 @@
           "paper_type": "Other Papers",
           "title": "Download EEE 3 SEM ELECTRONICS ENGINEERING 5468 C 16 JUL 2020",
           "url": "https://www.sbtetonline.com/papers/eee-3-sem-electronics-engineering-5468-c-16-jul-2020.pdf"
+        }
+      ]
+    },
+    "4": {
+      "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 DEC 2022": [
+        {
+          "branch": "Electrical",
+          "semester": "4",
+          "subject": "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 DEC 2022",
+          "subject_code": "",
+          "year": "2022",
+          "paper_type": "Other Papers",
+          "title": "Download BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 DEC 2022",
+          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-4-sem-microcontroller-programming-6433-c-18-dec-2022.pdf"
+        }
+      ],
+      "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2022": [
+        {
+          "branch": "Electrical",
+          "semester": "4",
+          "subject": "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2022",
+          "subject_code": "",
+          "year": "2022",
+          "paper_type": "Other Papers",
+          "title": "Download BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2022",
+          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-4-sem-microcontroller-programming-6433-c-18-jun-2022.pdf"
+        }
+      ],
+      "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2023": [
+        {
+          "branch": "Electrical",
+          "semester": "4",
+          "subject": "BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2023",
+          "subject_code": "",
+          "year": "2023",
+          "paper_type": "Other Papers",
+          "title": "Download BM EC EI ES EV 4 SEM MICROCONTROLLER PROGRAMMING 6433 C 18 JUN 2023",
+          "url": "https://www.sbtetonline.com/papers/bm-ec-ei-es-ev-4-sem-microcontroller-programming-6433-c-18-jun-2023.pdf"
         }
       ]
     },
