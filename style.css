@@ -2,3 +2,4 @@
 /* Curriculum card */
 .card-teal{background:linear-gradient(125deg,#159c9b,#43c9b8)}
 @media(min-width:761px){.resource-card:nth-child(4),.resource-card:nth-child(5){grid-column:span 2}}
+@media(max-width:760px){.resource-card:last-child{grid-column:span 1}}
