@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
     const overlay = document.getElementById('selection-overlay');
-    const form = document.getElementById('paper-form');
+    const paperBrowser = document.getElementById('paper-browser');
     const mobileMenu = document.getElementById('mobile-menu');
     const originalHome = app.innerHTML;
     const names = {'model-papers':'Model Papers','study-notes':'Study Notes','important-questions':'Important Questions','exam-oriented-segments':'Exam-oriented Segments','curriculum':'Curriculum'};
     const curriculumCache = {records: null, promise: null};
+    const paperCache = {records: null, promise: null};
     const branchNames = {CSE:'Computer Science and Engineering',CE:'Civil Engineering',MN:'Mining Engineering',ME:'Mechanical Engineering',EEE:'Electrical and Electronics Engineering'};
     const officialArchivePage='https://www.sbtet.telangana.gov.in/index.html#!/index/ViewSyllabus';
     const officialArchives={
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     document.getElementById('year').textContent = new Date().getFullYear();
-    function showSelection(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');document.getElementById('year-select').focus()}
+    function showSelection(){overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');renderPaperLoading();getPaperRecords().then(records=>renderPaperBranches(records)).catch(error=>renderPaperError(error));}
     function closeSelection(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true')}
     function navigate(route){const nextHash=`#${route}`;if(window.location.hash===nextHash){renderRoute()}else{window.location.hash=route}}
     function renderRoute(){
@@ -46,6 +47,79 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));}
     function normalizeValue(value){return String(value??'').replace(/\s+/g,' ').trim().toLowerCase();}
+    function getPaperRecords(){
+        if(paperCache.records)return Promise.resolve(paperCache.records);
+        if(paperCache.promise)return paperCache.promise;
+        paperCache.promise=fetch('grouped_papers.json',{cache:'force-cache'}).then(response=>{
+            if(!response.ok)throw new Error(`Paper data could not be loaded (HTTP ${response.status}).`);
+            return response.json();
+        }).then(source=>{
+            const records=[];
+            const seen=new Set();
+            function walk(value,topBranch='',groupKey=''){
+                if(Array.isArray(value)){value.forEach(record=>{
+                    if(!record||typeof record!=='object')return;
+                    const url=String(record.url||'').trim();
+                    if(!/^https?:\/\//i.test(url))return;
+                    const item={...record,branch:String(record.branch||topBranch).trim(),semester:String(record.semester||groupKey).trim()||'Unknown',subject:String(record.subject||record.title||'Untitled subject').trim()};
+                    const key=[url,normalizeValue(item.subject),normalizeValue(item.year),normalizeValue(item.paper_type)].join('|');
+                    if(!seen.has(key)){seen.add(key);records.push(item)}
+                });return}
+                if(!value||typeof value!=='object')return;
+                Object.entries(value).forEach(([key,nested])=>walk(nested,topBranch||key,groupKey||key));
+            }
+            walk(source);
+            paperCache.records=records;
+            return records;
+        }).finally(()=>{paperCache.promise=null});
+        return paperCache.promise;
+    }
+    function renderPaperLoading(){paperBrowser.innerHTML='<div class="loading-state paper-loading"><i class="fa-solid fa-spinner fa-spin"></i><p>Loading paper collection…</p></div>';}
+    function renderPaperError(error){paperBrowser.innerHTML=`<div class="empty-state paper-empty"><i class="fa-solid fa-triangle-exclamation"></i><h3>Papers unavailable</h3><p>${escapeHtml(error.message||'Unable to load the paper collection.')}</p><button class="form-button" id="paper-retry" type="button">Try again <i class="fa-solid fa-rotate-right"></i></button></div>`;document.getElementById('paper-retry')?.addEventListener('click',showSelection);}
+    function paperOptions(records,field){return [...new Set(records.map(record=>String(record[field]||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));}
+    function paperOptionLabel(value,field){if(normalizeValue(value)==='unknown')return field==='semester'?'Semester not specified':'Not specified';if(normalizeValue(value)==='unsorted')return 'Other / unsorted';return value;}
+    function paperBack(label,action){return `<button class="step-back paper-back" id="paper-back" type="button"><i class="fa-solid fa-arrow-left"></i> ${escapeHtml(label)}</button>`;}
+    function paperSearch(placeholder){return `<label class="paper-search"><i class="fa-solid fa-magnifying-glass"></i><span class="sr-only">Search</span><input id="paper-search-input" type="search" placeholder="${escapeHtml(placeholder)}" autocomplete="off"></label>`;}
+    function paperChoiceGrid(values,attribute,description){const field=attribute==='semester'?'semester':'branch';return `<div class="paper-choice-grid">${values.map(value=>`<button class="paper-choice" type="button" data-paper-${attribute}="${escapeHtml(value)}"><span class="paper-choice-icon"><i class="fa-regular fa-folder-open"></i></span><strong>${escapeHtml(paperOptionLabel(value,field))}</strong><small>${escapeHtml(description(value))} <i class="fa-solid fa-arrow-right"></i></small></button>`).join('')}</div>`;}
+    function renderPaperBranches(records){
+        const branches=paperOptions(records,'branch');
+        paperBrowser.innerHTML=`<div class="paper-step-head"><span class="step-number">01</span><div><h3>Choose a branch</h3><p>${branches.length} branch${branches.length===1?'':'es'} available</p></div></div>${branches.length?paperChoiceGrid(branches,'branch',value=>`${records.filter(record=>normalizeValue(record.branch)===normalizeValue(value)).length} papers`):'<div class="empty-state paper-empty"><i class="fa-regular fa-folder-open"></i><h3>No branches available</h3><p>There are no usable paper records in the data file.</p></div>'}`;
+        paperBrowser.querySelectorAll('[data-paper-branch]').forEach(button=>button.addEventListener('click',()=>renderBranchPapers(records,button.dataset.paperBranch)));
+    }
+    function renderBranchPapers(records,branch){
+        const branchRecords=records.filter(record=>normalizeValue(record.branch)===normalizeValue(branch));
+        const renderList=(items,emptyTitle='No matching papers',emptyText='Try a different search term.')=>items.length?items.map(renderPaperCard).join(''):`<div class="empty-state paper-empty"><i class="fa-regular fa-file-lines"></i><h3>${emptyTitle}</h3><p>${emptyText}</p></div>`;
+        paperBrowser.innerHTML=`${paperBack('Branches')}<div class="paper-step-head"><span class="step-number">02</span><div><h3>All papers · ${escapeHtml(paperOptionLabel(branch,'branch'))}</h3><p>${branchRecords.length} paper${branchRecords.length===1?'':'s'} across all available semesters and subjects</p></div></div><div class="paper-toolbar">${paperSearch('Search papers, subjects, years') }<label class="sort-control">Sort <select id="paper-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div><div id="paper-list" class="paper-list">${renderList(branchRecords,'No papers found','This branch does not have any usable paper URLs yet.')}</div>`;
+        document.getElementById('paper-back').addEventListener('click',()=>renderPaperBranches(records));
+        const repaint=()=>{const term=normalizeValue(document.getElementById('paper-search-input').value);const direction=document.getElementById('paper-sort').value==='oldest'?1:-1;const visible=branchRecords.filter(p=>normalizeValue(`${p.title} ${p.subject} ${p.year} ${p.semester} ${p.paper_type}`).includes(term)).sort((a,b)=>direction*(paperYear(a)-paperYear(b))||String(a.url).localeCompare(String(b.url)));document.getElementById('paper-list').innerHTML=renderList(visible);};
+        document.getElementById('paper-search-input')?.addEventListener('input',repaint);document.getElementById('paper-sort')?.addEventListener('change',repaint);
+    }
+    function renderPaperSemesters(records,branch){
+        const branchRecords=records.filter(record=>normalizeValue(record.branch)===normalizeValue(branch));
+        const semesters=paperOptions(branchRecords,'semester');
+        paperBrowser.innerHTML=`${paperBack('Branches')}<div class="paper-step-head"><span class="step-number">02</span><div><h3>Choose a semester</h3><p>${escapeHtml(branch)} · ${branchRecords.length} papers</p></div></div>${semesters.length?paperChoiceGrid(semesters,'semester',value=>`${branchRecords.filter(record=>normalizeValue(record.semester)===normalizeValue(value)).length} papers`):'<div class="empty-state paper-empty"><i class="fa-regular fa-folder-open"></i><h3>No semesters available</h3><p>This branch has no semester information.</p></div>'}`;
+        document.getElementById('paper-back').addEventListener('click',()=>renderPaperBranches(records));
+        paperBrowser.querySelectorAll('[data-paper-semester]').forEach(button=>button.addEventListener('click',()=>renderPaperSubjects(records,branch,button.dataset.paperSemester)));
+    }
+    function renderPaperSubjects(records,branch,semester){
+        const selected=records.filter(record=>normalizeValue(record.branch)===normalizeValue(branch)&&normalizeValue(record.semester)===normalizeValue(semester));
+        const subjects=[...new Map(selected.map(record=>{const code=String(record.subject_code||'').trim();const key=normalizeValue(record.subject)+'|'+normalizeValue(code);return [key,{subject:record.subject,code,count:selected.filter(item=>normalizeValue(item.subject)===normalizeValue(record.subject)).length}]})).values()].sort((a,b)=>a.subject.localeCompare(b.subject));
+        paperBrowser.innerHTML=`${paperBack('Semesters')}<div class="paper-step-head"><span class="step-number">03</span><div><h3>Choose a subject</h3><p>${escapeHtml(branch)} · Semester ${escapeHtml(semester)}</p></div></div>${paperSearch('Search subjects')}${subjects.length?`<div class="paper-choice-grid subject-choice-grid">${subjects.map(item=>`<button class="paper-choice subject-choice" type="button" data-paper-subject="${escapeHtml(item.subject)}"><span class="paper-choice-icon"><i class="fa-regular fa-file-lines"></i></span><strong>${escapeHtml(item.subject)}</strong><small>${item.code?`${escapeHtml(item.code)} · `:''}${item.count} paper${item.count===1?'':'s'} <i class="fa-solid fa-arrow-right"></i></small></button>`).join('')}</div>`:'<div class="empty-state paper-empty"><i class="fa-regular fa-folder-open"></i><h3>No subjects found</h3><p>There are no papers for this branch and semester.</p></div>'}`;
+        document.getElementById('paper-back').addEventListener('click',()=>renderPaperSemesters(records,branch));
+        const filterSubjects=()=>{const term=normalizeValue(document.getElementById('paper-search-input').value);paperBrowser.querySelectorAll('[data-paper-subject]').forEach(button=>button.hidden=term&&!normalizeValue(button.dataset.paperSubject).includes(term));};
+        document.getElementById('paper-search-input')?.addEventListener('input',filterSubjects);
+        paperBrowser.querySelectorAll('[data-paper-subject]').forEach(button=>button.addEventListener('click',()=>renderPaperList(selected,branch,semester,button.dataset.paperSubject)));
+    }
+    function paperYear(record){const match=String(record.year||'').match(/\b(19|20)\d{2}\b/);return match?Number(match[0]):0;}
+    function renderPaperList(records,branch,semester,subject){
+        const papers=records.filter(record=>normalizeValue(record.subject)===normalizeValue(subject)).sort((a,b)=>paperYear(b)-paperYear(a)||String(b.url).localeCompare(String(a.url)));
+        const metadata=papers[0]||{};
+        paperBrowser.innerHTML=`${paperBack('Subjects')}<div class="paper-step-head"><span class="step-number">04</span><div><h3>${escapeHtml(subject)}</h3><p>${escapeHtml(branch)} · Semester ${escapeHtml(semester)}${metadata.subject_code?` · ${escapeHtml(metadata.subject_code)}`:''}</p></div></div><div class="paper-toolbar">${paperSearch('Search papers')}<label class="sort-control">Sort <select id="paper-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label></div><div id="paper-list" class="paper-list">${papers.length?papers.map(renderPaperCard).join(''):'<div class="empty-state paper-empty"><i class="fa-regular fa-file-lines"></i><h3>No papers found</h3><p>This subject does not have a usable paper URL yet.</p></div>'}</div>`;
+        document.getElementById('paper-back').addEventListener('click',()=>renderPaperSubjects(records,branch,semester));
+        const repaint=()=>{const term=normalizeValue(document.getElementById('paper-search-input').value);const direction=document.getElementById('paper-sort').value==='oldest'?1:-1;const visible=papers.filter(p=>normalizeValue(`${p.title} ${p.year} ${p.paper_type}`).includes(term)).sort((a,b)=>direction*(paperYear(a)-paperYear(b))||String(a.url).localeCompare(String(b.url)));document.getElementById('paper-list').innerHTML=visible.length?visible.map(renderPaperCard).join(''):'<div class="empty-state paper-empty"><i class="fa-regular fa-file-lines"></i><h3>No matching papers</h3><p>Try a different search term.</p></div>';};
+        document.getElementById('paper-search-input')?.addEventListener('input',repaint);document.getElementById('paper-sort')?.addEventListener('change',repaint);
+    }
+    function renderPaperCard(record){const url=String(record.url||'').trim();const download=/\.(pdf|zip|docx?|pptx?|xlsx?)(?:[?#]|$)/i.test(url);return `<article class="paper-record"><div class="paper-record-icon"><i class="fa-regular fa-file-pdf"></i></div><div class="paper-record-main"><h4>${escapeHtml(record.subject||record.title||'Question paper')}</h4><div class="paper-meta">${record.subject_code?`<span>${escapeHtml(record.subject_code)}</span>`:''}${record.year?`<span>${escapeHtml(record.year)}</span>`:''}${record.semester&&normalizeValue(record.semester)!=='unknown'?`<span>Semester ${escapeHtml(record.semester)}</span>`:''}${record.paper_type?`<span>${escapeHtml(record.paper_type)}</span>`:''}${record.exam_date||record.date?`<span>${escapeHtml(record.exam_date||record.date)}</span>`:''}</div></div><div class="paper-actions"><a class="document-action" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">View / Open <i class="fa-solid fa-arrow-up-right-from-square"></i></a>${download?`<a class="download-action" href="${escapeHtml(url)}" download target="_blank" rel="noopener noreferrer" aria-label="Download ${escapeHtml(record.subject||'paper')}"><i class="fa-solid fa-download"></i></a>`:''}</div></article>`;}
     function getCurriculumRecords(){
         if(curriculumCache.records)return Promise.resolve(curriculumCache.records);
         if(curriculumCache.promise)return curriculumCache.promise;
@@ -105,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click',event=>{if(event.target===overlay)closeSelection()});
     document.addEventListener('keydown',event=>{if(event.key==='Escape')closeSelection()});
     document.addEventListener('click',event=>{if(event.target.closest('.back-link')){event.preventDefault();navigate('resources')}});
-    form.addEventListener('submit',event=>{event.preventDefault();const year=document.getElementById('year-select').value;const branch=document.getElementById('branch-select').value;closeSelection();app.innerHTML=`<section class="coming-soon"><div class="soon-icon"><i class="fa-regular fa-file-lines"></i></div><div class="eyebrow" style="justify-content:center;margin-top:28px"><span></span> Previous year papers</div><h1>Your paper shelf.</h1><p>${year} · ${branch}<br>No papers have been added here yet. This is your collection page for future uploads.</p><a class="back-link" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to resources</a></section>`;window.scrollTo({top:0,behavior:'smooth'})});
     document.getElementById('menu-toggle').addEventListener('click',()=>mobileMenu.classList.toggle('open'));
     mobileMenu.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>mobileMenu.classList.remove('open')));
     window.addEventListener('hashchange',renderRoute);bindCards();
