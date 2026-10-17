@@ -90,7 +90,7 @@ export default {
     const id = requestId();
 
     try {
-      const upstream = await fetch(upstreamUrl, {
+      const upstreamRequest = () => fetch(upstreamUrl, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -98,6 +98,12 @@ export default {
         },
         cf: { cacheTtl: 0, cacheEverything: false },
       });
+      let upstream = await upstreamRequest();
+      if (upstream.status === 522) {
+        console.warn('Retrying transient SBTET 522 response', { requestId: id });
+        await new Promise(resolve => setTimeout(resolve, 250));
+        upstream = await upstreamRequest();
+      }
 
       const text = await upstream.text();
       if (!upstream.ok) {
