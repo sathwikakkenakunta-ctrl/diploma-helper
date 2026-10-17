@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         app.innerHTML=`<section class="notifications-page"><div class="notifications-shell"><a class="back-link" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to resources</a><div class="notifications-heading"><div><div class="eyebrow"><span></span> Official SBTET feed</div><h1>Latest <em>notifications.</em></h1><p>Genuine circulars and notices published by the State Board of Technical Education and Training, Telangana.</p></div><button class="notifications-refresh" id="notifications-refresh" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button></div><div id="notifications-status" class="notifications-status" role="status"></div><div id="notifications-list" class="notifications-list"></div><div class="notifications-source"><i class="fa-solid fa-building-columns"></i><span>Source: official SBTET notifications and circulars</span><a href="${notificationSource}" target="_blank" rel="noopener noreferrer">Open source <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div></div></section>`;
         loadStoredNotifications();renderNotifications();fetchNotifications();document.getElementById('notifications-refresh').addEventListener('click',fetchNotifications);notificationRefreshTimer=setInterval(fetchNotifications,15*60*1000);window.scrollTo({top:0,behavior:'smooth'});
     }
+    function hydrateHomeNotifications(){loadStoredNotifications();renderHomeNotifications();fetchNotifications();if(notificationRefreshTimer)clearInterval(notificationRefreshTimer);notificationRefreshTimer=setInterval(fetchNotifications,15*60*1000)}
     function renderRoute(){
         if(notificationRefreshTimer){clearInterval(notificationRefreshTimer);notificationRefreshTimer=null}
         const route=window.location.hash.slice(1);
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(route==='attendance'){renderAttendance();return}
         if(route==='notifications'){renderNotificationsPage();return}
         if(names[route]){app.innerHTML=`<section class="coming-soon"><div class="soon-icon"><i class="fa-solid fa-hourglass-half"></i></div><div class="eyebrow" style="justify-content:center;margin-top:28px"><span></span> ${names[route]}</div><h1>Coming soon!</h1><p>We’re preparing this resource for your study desk.</p><a class="back-link" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to resources</a></section>`;window.scrollTo({top:0,behavior:'smooth'});return}
-        app.innerHTML=originalHome;bindCards();
+        app.innerHTML=originalHome;bindCards();hydrateHomeNotifications();
         if(route==='resources') setTimeout(()=>document.getElementById('resources')?.scrollIntoView({behavior:'smooth'}),0);
     }
     function curriculumConfig(){
@@ -258,4 +259,5 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('hashchange',renderRoute);
     window.addEventListener('popstate',event=>{if(window.location.hash==='#previous-year-papers') renderPaperView(event.state||{paperView:'branches'});else renderRoute();});
     bindCards();
+    hydrateHomeNotifications();
 });
