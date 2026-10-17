@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCP Connect - Attendance Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #eef5f9;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 15px;
+      color: #333;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      color: #1565c0;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #dcdfe6;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    input:focus {
+      border-color: #1e88e5;
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.15);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    #saveBtn {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    #getBtn {
+      background: #1976d2;
+      color: white;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .clear {
+      margin-top: 8px;
+      width: 100%;
+      background: transparent;
+      color: #e53935;
+      font-size: 13px;
+      padding: 6px;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f5f5f5;
+      font-size: 13px;
+      text-align: center;
+      display: none;
+      font-weight: 600;
+    }
+
+    /* Attendance Visualizer Styles */
+    #dashboard {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .student-card {
+      background: linear-gradient(135deg, #0d47a1, #1e88e5);
+      color: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 18px rgba(21, 101, 192, 0.25);
+    }
+
+    .student-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .student-pin {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 15px;
+    }
+
+    .pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .stat-lbl {
+      font-size: 10px;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .percentage-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 15px;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    .percentage-val {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    /* Calendar Grid Styles */
+    .month-section {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 15px;
+    }
+
+    .month-header {
+      font-size: 15px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .day-box {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .day-box .day-num {
+      font-size: 11px;
+    }
+
+    .day-box .day-status {
+      font-size: 9px;
+      opacity: 0.9;
+    }
+
+    /* Status Color Codes */
+    .status-P { background-color: #2e7d32; } /* Present - Green */
+    .status-A { background-color: #c62828; } /* Absent - Red */
+    .status-W { background-color: #f57c00; } /* Weekend - Orange */
+    .status-H { background-color: #0288d1; } /* Holiday - Blue */
+    .status-E { background-color: #7b1fa2; } /* Exam - Purple */
+    .status-dash, .status- { background-color: #e0e0e0; color: #777; } /* Unmarked */
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>SCP Connect</h1>
+    <div class="subtitle">SBTET Attendance Portal</div>
+
+    <div class="form-group">
+      <label for="pin">Student PIN</label>
+      <input type="text" id="pin" placeholder="Example: 26161-CS-014" autocomplete="off">
+    </div>
+
+    <div class="buttons">
+      <button id="saveBtn" onclick="savePin()">Save PIN</button>
+      <button id="getBtn" onclick="getAttendance()">Get Attendance</button>
+    </div>
+
+    <button class="clear" onclick="clearPin()">Clear Saved PIN</button>
+
+    <div id="status" class="status"></div>
+
+    <!-- Customized Dashboard Output -->
+    <div id="dashboard">
+      <div id="studentInfo"></div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot status-P"></div> Present</div>
+        <div class="legend-item"><div class="legend-dot status-A"></div> Absent</div>
+        <div class="legend-item"><div class="legend-dot status-W"></div> Sunday</div>
+        <div class="legend-item"><div class="legend-dot status-H"></div> Holiday</div>
+        <div class="legend-item"><div class="legend-dot status-E"></div> Exam</div>
+      </div>
+
+      <div id="calendarContainer"></div>
+    </div>
+
+  </div>
+
+<script>
+
+  const WORKER_URL = "https://sbtet-proxy.vakkenakunta.workers.dev/";
+
+  // Load saved PIN on page startup
+  window.onload = function () {
+    const savedPin = localStorage.getItem("sbtet_pin");
+    if (savedPin) {
+      document.getElementById("pin").value = savedPin;
+    }
+  };
+
+  function savePin() {
+    const pin = document.getElementById("pin").value.trim();
+    if (!pin) {
+      showStatus("Please enter your PIN.", true);
+      return;
+    }
+    localStorage.setItem("sbtet_pin", pin);
+    showStatus("PIN saved successfully.");
+  }
+
+  function clearPin() {
+    localStorage.removeItem("sbtet_pin");
+    document.getElementById("pin").value = "";
+    document.getElementById("dashboard").style.display = "none";
+    showStatus("Saved PIN cleared.");
+  }
+
+  async function getAttendance() {
+    const pin = document.getElementById("pin").value.trim();
+    if (!pin) {
+      showStatus("Please enter your PIN.", true);
+      return;
+    }
+
+    localStorage.setItem("sbtet_pin", pin);
+
+    const getButton = document.getElementById("getBtn");
+    getButton.disabled = true;
+    getButton.textContent = "Loading...";
+
+    showStatus("Fetching attendance data...");
+    document.getElementById("dashboard").style.display = "none";
+
+    try {
+      const proxyUrl = new URL(WORKER_URL);
+      proxyUrl.searchParams.set("pin", pin);
+
+      const response = await fetch(proxyUrl.toString());
+      const text = await response.text();
+
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status + ": " + text);
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+        if (typeof data === 'string') {
+          data = JSON.parse(data); // Handle double-stringified JSON
+        }
+      } catch (err) {
+        throw new Error("Invalid JSON format received.");
+      }
+
+      if (!data.Table || data.Table.length === 0) {
+        throw new Error("No record found for this PIN.");
+      }
+
+      // Render formatted dashboard
+      renderDashboard(data);
+      showStatus("Attendance loaded successfully.");
+
+    } catch (error) {
+      console.error(error);
+      showStatus("Failed to load: " + error.message, true);
+    } finally {
+      getButton.disabled = false;
+      getButton.textContent = "Get Attendance";
+    }
+  }
+
+  function renderDashboard(data) {
+    const summary = data.Table[0];
+    const dailyRecords = data.Table1 || [];
+
+    // Render Student Header Card
+    const studentInfo = document.getElementById("studentInfo");
+    studentInfo.innerHTML = `
+      <div class="student-card">
+        <div class="student-name">${summary.Name || 'Student'}</div>
+        <div class="student-pin">PIN: ${summary.Pin} | College: ${summary.CollegeCode}</div>
+        
+        <div class="pills">
+          <span class="pill">Scheme: ${summary.Scheme}</span>
+          <span class="pill">Sem: ${summary.Semester}</span>
+          <span class="pill">Branch: ${summary.BranchCode}</span>
+        </div>
+
+        <div class="stats-grid">
+          <div>
+            <div class="stat-val">${summary.NumberOfDaysPresent}</div>
+            <div class="stat-lbl">Present Days</div>
+          </div>
+          <div>
+            <div class="stat-val">${summary.WorkingDays}</div>
+            <div class="stat-lbl">Working Days</div>
+          </div>
+          <div>
+            <div class="stat-val">${summary.ExamsNDP || summary.NumberOfDaysPresent}</div>
+            <div class="stat-lbl">Exam NDP</div>
+          </div>
+        </div>
+
+        <div class="percentage-banner">
+          <div>
+            <div style="font-size: 11px; opacity: 0.8;">Current Percentage</div>
+            <div class="percentage-val">${summary.Percentage}%</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; opacity: 0.8;">Total / Exam %</div>
+            <div style="font-size: 16px; font-weight: bold;">${summary.TotalPercentage}%</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Group daily records by month
+    const monthsMap = {};
+    dailyRecords.forEach(record => {
+      const month = record.AttendanceMonth || 'Other';
+      if (!monthsMap[month]) {
+        monthsMap[month] = [];
+      }
+      monthsMap[month].push(record);
+    });
+
+    // Render Calendar Grids per Month
+    const calendarContainer = document.getElementById("calendarContainer");
+    calendarContainer.innerHTML = "";
+
+    Object.keys(monthsMap).forEach(month => {
+      const monthDays = monthsMap[month];
+
+      const monthSection = document.createElement("div");
+      monthSection.className = "month-section";
+
+      let monthHtml = `<div class="month-header"><span>${month} ${monthDays[0]?.yr || ''}</span></div>`;
+      monthHtml += `<div class="days-grid">`;
+
+      monthDays.forEach(dayRec => {
+        const statusClass = dayRec.Status === '-' ? 'status-dash' : 'status-' + dayRec.Status;
+        monthHtml += `
+          <div class="day-box ${statusClass}" title="${dayRec.Date}: ${dayRec.Status}">
+            <span class="day-num">${dayRec.Day}</span>
+            <span class="day-status">${dayRec.Status}</span>
+          </div>
+        `;
+      });
+
+      monthHtml += `</div>`;
+      monthSection.innerHTML = monthHtml;
+      calendarContainer.appendChild(monthSection);
+    });
+
+    document.getElementById("dashboard").style.display = "block";
+  }
+
+  function showStatus(message, error = false) {
+    const status = document.getElementById("status");
+    status.style.display = "block";
+    status.textContent = message;
+    status.style.background = error ? "#ffebee" : "#e8f5e9";
+    status.style.color = error ? "#c62828" : "#2e7d32";
+  }
+
+</script>
+
+</body>
+</html>

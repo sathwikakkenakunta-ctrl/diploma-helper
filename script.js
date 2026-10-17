@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let paperBrowser = document.getElementById('paper-browser');
     const mobileMenu = document.getElementById('mobile-menu');
     const originalHome = app.innerHTML;
-    const names = {'model-papers':'Model Papers','study-notes':'Study Notes','important-questions':'Important Questions','exam-oriented-segments':'Exam-oriented Segments','curriculum':'Curriculum'};
+    const names = {'model-papers':'Model Papers','study-notes':'Study Notes','important-questions':'Important Questions','exam-oriented-segments':'Exam-oriented Segments','results':'Results'};
     const curriculumCache = {records: null, promise: null};
     const paperCache = {records: null, promise: null};
     const branchNames = {CSE:'Computer Science and Engineering',CE:'Civil Engineering',MN:'Mining Engineering',ME:'Mechanical Engineering',EEE:'Electrical and Electronics Engineering'};
@@ -42,10 +42,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function paperGoBack(){if(history.state?.paperView) history.back();else navigate('resources');}
     function closeSelection(){overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true')}
     function navigate(route){const nextHash=`#${route}`;if(window.location.hash===nextHash){renderRoute()}else{window.location.hash=route}}
+    function renderAttendance(){
+        app.innerHTML=`<section class="attendance-page"><div class="attendance-shell"><a class="back-link" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to resources</a><div class="attendance-heading"><div><div class="eyebrow"><span></span> Attendance portal</div><h1>Stay on top of<br><em>your attendance.</em></h1><p>Enter your student PIN to view your attendance summary and day-by-day record.</p></div><div class="attendance-heading-icon"><i class="fa-solid fa-calendar-check"></i></div></div><div class="attendance-layout"><form class="attendance-form" id="attendance-form"><div class="attendance-form-kicker"><i class="fa-solid fa-lock"></i> Secure student lookup</div><label for="attendance-pin">Student PIN</label><input type="text" id="attendance-pin" placeholder="Example: 26161-CS-014" autocomplete="off"><div class="attendance-actions"><button class="attendance-save" id="attendance-save" type="button">Save PIN</button><button class="attendance-submit" id="attendance-submit" type="submit">Get attendance <i class="fa-solid fa-arrow-right"></i></button></div><button class="attendance-clear" id="attendance-clear" type="button">Clear saved PIN</button><div class="attendance-status" id="attendance-status" role="status"></div></form><div class="attendance-tip"><i class="fa-solid fa-lightbulb"></i><div><strong>Quick tip</strong><p>Your PIN is saved only in this browser, so you can check in again faster next time.</p></div></div></div><div id="attendance-dashboard" class="attendance-dashboard"></div></div></section>`;
+        const pinInput=document.getElementById('attendance-pin');
+        const savedPin=localStorage.getItem('sbtet_pin');
+        if(savedPin)pinInput.value=savedPin;
+        const status=document.getElementById('attendance-status');
+        const dashboard=document.getElementById('attendance-dashboard');
+        const showStatus=(message,error=false)=>{status.textContent=message;status.className=`attendance-status visible${error?' is-error':''}`};
+        document.getElementById('attendance-save').addEventListener('click',()=>{const pin=pinInput.value.trim();if(!pin){showStatus('Please enter your PIN.',true);return}localStorage.setItem('sbtet_pin',pin);showStatus('PIN saved successfully.')});
+        document.getElementById('attendance-clear').addEventListener('click',()=>{localStorage.removeItem('sbtet_pin');pinInput.value='';dashboard.innerHTML='';showStatus('Saved PIN cleared.')});
+        document.getElementById('attendance-form').addEventListener('submit',async event=>{
+            event.preventDefault();const pin=pinInput.value.trim();if(!pin){showStatus('Please enter your PIN.',true);return}localStorage.setItem('sbtet_pin',pin);
+            const button=document.getElementById('attendance-submit');button.disabled=true;button.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Loading';dashboard.innerHTML='';showStatus('Fetching attendance data…');
+            try{const proxyUrl=new URL('https://sbtet-proxy.vakkenakunta.workers.dev/');proxyUrl.searchParams.set('pin',pin);const response=await fetch(proxyUrl.toString());const text=await response.text();if(!response.ok)throw new Error(`HTTP ${response.status}`);let data=JSON.parse(text);if(typeof data==='string')data=JSON.parse(data);if(!data.Table?.length)throw new Error('No record found for this PIN.');renderAttendanceDashboard(dashboard,data);showStatus('Attendance loaded successfully.')}catch(error){console.error(error);showStatus(`Failed to load: ${error.message}`,true)}finally{button.disabled=false;button.innerHTML='Get attendance <i class="fa-solid fa-arrow-right"></i>'}
+        });
+        window.scrollTo({top:0,behavior:'smooth'});
+    }
+    function renderAttendanceDashboard(container,data){
+        const summary=data.Table[0]||{};const dailyRecords=data.Table1||[];const months={};dailyRecords.forEach(record=>{const month=record.AttendanceMonth||'Other';(months[month]??=[]).push(record)});
+        const safe=value=>escapeHtml(value??'—');
+        const monthMarkup=Object.entries(months).map(([month,records])=>`<section class="attendance-month"><div class="attendance-month-head"><span>${safe(month)} ${safe(records[0]?.yr||'')}</span><span>${records.length} days</span></div><div class="attendance-weekdays"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div><div class="attendance-days">${records.map(record=>{const state=String(record.Status||'-').toUpperCase();const cls=['P','A','W','H','E'].includes(state)?state:'dash';return `<div class="attendance-day status-${cls}" title="${safe(record.Date)}: ${safe(record.Status)}"><span>${safe(record.Day)}</span><small>${safe(record.Status||'-')}</small></div>`}).join('')}</div></section>`).join('');
+        container.innerHTML=`<article class="attendance-student-card"><div class="attendance-student-top"><div><span class="attendance-card-kicker"><i class="fa-solid fa-user-graduate"></i> Student record</span><h2>${safe(summary.Name||'Student')}</h2><p>PIN ${safe(summary.Pin)} <span>•</span> College ${safe(summary.CollegeCode)}</p></div><div class="attendance-percentage"><strong>${safe(summary.Percentage)}%</strong><span>Current</span></div></div><div class="attendance-tags"><span>Scheme ${safe(summary.Scheme)}</span><span>Semester ${safe(summary.Semester)}</span><span>Branch ${safe(summary.BranchCode)}</span></div><div class="attendance-stats"><div><strong>${safe(summary.NumberOfDaysPresent)}</strong><span>Present days</span></div><div><strong>${safe(summary.WorkingDays)}</strong><span>Working days</span></div><div><strong>${safe(summary.ExamsNDP||summary.NumberOfDaysPresent)}</strong><span>Exam NDP</span></div><div><strong>${safe(summary.TotalPercentage)}%</strong><span>Total / exam</span></div></div></article><div class="attendance-record-heading"><div><div class="eyebrow"><span></span> Daily record</div><h2>Attendance calendar</h2></div><div class="attendance-legend"><span><i class="status-dot status-P"></i> Present</span><span><i class="status-dot status-A"></i> Absent</span><span><i class="status-dot status-W"></i> Sunday</span><span><i class="status-dot status-H"></i> Holiday</span><span><i class="status-dot status-E"></i> Error</span></div></div><div class="attendance-months">${monthMarkup||'<div class="attendance-empty">No daily records were returned.</div>'}</div>`;
+    }
     function renderRoute(){
         const route=window.location.hash.slice(1);
         if(route==='previous-year-papers'){app.innerHTML=originalHome;bindCards();showSelection();return}
         if(route==='curriculum'){renderCurriculum();return}
+        if(route==='attendance'){renderAttendance();return}
         if(names[route]){app.innerHTML=`<section class="coming-soon"><div class="soon-icon"><i class="fa-solid fa-hourglass-half"></i></div><div class="eyebrow" style="justify-content:center;margin-top:28px"><span></span> ${names[route]}</div><h1>Coming soon!</h1><p>We’re preparing this resource for your study desk.</p><a class="back-link" href="#resources"><i class="fa-solid fa-arrow-left"></i> Back to resources</a></section>`;window.scrollTo({top:0,behavior:'smooth'});return}
         app.innerHTML=originalHome;bindCards();
         if(route==='resources') setTimeout(()=>document.getElementById('resources')?.scrollIntoView({behavior:'smooth'}),0);
@@ -186,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         content.innerHTML=`<button class="step-back" id="curriculum-back"><i class="fa-solid fa-arrow-left"></i> Branches</button><div class="selection-step"><span class="step-number">03</span><div><h2>Curriculum documents</h2><p>${subtitle}</p></div></div><div class="document-grid">${databaseDocuments}${officialDocument}</div>`;
         document.getElementById('curriculum-back').addEventListener('click',()=>renderBranches(sourceRecords,regulation));
     }
-    function bindCards(){document.querySelectorAll('[data-resource]').forEach(card=>card.addEventListener('click',event=>{if(card.dataset.resource==='previous-year-papers'){event.preventDefault();navigate('previous-year-papers')}else if(card.dataset.resource==='curriculum'){event.preventDefault();navigate('curriculum')}}))}
+    function bindCards(){document.querySelectorAll('[data-resource]').forEach(card=>card.addEventListener('click',event=>{if(['previous-year-papers','curriculum','attendance'].includes(card.dataset.resource)){event.preventDefault();navigate(card.dataset.resource)}}))}
     document.getElementById('close-selection').addEventListener('click',closeSelection);
     overlay.addEventListener('click',event=>{if(event.target===overlay)closeSelection()});
     document.addEventListener('keydown',event=>{if(event.key==='Escape')closeSelection()});
