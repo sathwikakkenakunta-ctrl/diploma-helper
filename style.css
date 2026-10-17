@@ -27,4 +27,4 @@ body{zoom:.9}
 /* Typography refresh */
 body{font-family:'Plus Jakarta Sans',sans-serif}
 h1,h2,.brand,.card-label,.choice-card strong,.paper-step-head h3,.paper-choice strong{font-family:'Outfit',sans-serif}
-.attendance-status{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.attendance-retry{border:0;border-radius:7px;padding:5px 9px;background:currentColor;color:#fff;font:700 11px 'DM Sans';cursor:pointer}.attendance-dns-hint{flex-basis:100%;font-size:10px;font-weight:500;line-height:1.45;opacity:.82}
+.attendance-status{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.attendance-retry{border:0;border-radius:7px;padding:5px 9px;background:#c44c67;color:#fff;font:700 11px 'DM Sans';cursor:pointer}.attendance-dns-hint{flex-basis:100%;font-size:10px;font-weight:500;line-height:1.45;opacity:.82}
