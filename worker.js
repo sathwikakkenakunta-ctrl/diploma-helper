@@ -48,6 +48,10 @@ function json(body, status, origin) {
   });
 }
 
+function requestId() {
+  return crypto.randomUUID();
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin');
@@ -83,15 +87,22 @@ export default {
     const upstreamUrl = new URL(SBTET_ENDPOINT);
     upstreamUrl.searchParams.set('Pin', pin);
 
+    const id = requestId();
+
     try {
       const upstream = await fetch(upstreamUrl, {
         method: 'GET',
-        headers: { Accept: 'application/json' },
+        headers: {
+          Accept: 'application/json',
+          'Cache-Control': 'no-cache',
+        },
+        cf: { cacheTtl: 0, cacheEverything: false },
       });
 
       const text = await upstream.text();
       if (!upstream.ok) {
-        return json({ error: 'SBTET attendance service returned an error.' }, 502, origin);
+        console.error('SBTET upstream returned a non-2xx response', { requestId: id, status: upstream.status });
+        return json({ error: 'SBTET attendance service returned an error.', upstreamStatus: upstream.status, requestId: id }, 502, origin);
       }
 
       let data;
@@ -99,13 +110,14 @@ export default {
         data = JSON.parse(text);
         if (typeof data === 'string') data = JSON.parse(data);
       } catch {
-        return json({ error: 'SBTET returned an invalid response.' }, 502, origin);
+        console.error('SBTET upstream returned invalid JSON', { requestId: id, status: upstream.status });
+        return json({ error: 'SBTET returned an invalid response.', requestId: id }, 502, origin);
       }
 
       return json(data, 200, origin);
     } catch (error) {
-      console.error('SBTET request failed', error);
-      return json({ error: 'Attendance service is temporarily unavailable.' }, 502, origin);
+      console.error('SBTET request failed', { requestId: id, error: error instanceof Error ? error.message : String(error) });
+      return json({ error: 'Attendance service is temporarily unavailable.', requestId: id }, 502, origin);
     }
   },
 };
