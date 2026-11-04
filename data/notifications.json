@@ -1,7 +1,23 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-04T02:43:23.150Z",
+  "fetchedAt": "2026-11-04T09:55:42.388Z",
   "items": [
+    {
+      "id": "2067",
+      "title": "Typewriting and Shorthand Notification January 2027",
+      "date": "2026-11-04T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/TWSH JAN-2027 Notification.pdf",
+      "type": "Pre-Examination",
+      "timestamp": "2026-11-04T12:28:59.437"
+    },
+    {
+      "id": "2066",
+      "title": "Diploma Regular Examinations – November 2026 Timetable",
+      "date": "2026-11-04T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/End Exam Time Table NOV-2026.pdf",
+      "type": "Pre-Examination",
+      "timestamp": "2026-11-04T12:24:00.51"
+    },
     {
       "id": "2065",
       "title": "RVCA NOTIFICATION TWSH JULY - 2026 EXAMINATION",
