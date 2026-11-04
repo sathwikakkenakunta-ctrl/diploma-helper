@@ -1,7 +1,15 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-04T09:55:42.388Z",
+  "fetchedAt": "2026-11-04T17:46:47.918Z",
   "items": [
+    {
+      "id": "2068",
+      "title": "Diploma Supplementary Examinations C-21 Scheme I, II, III, IV, V,VI semesters, C-24 Scheme I,II, III, IV Semesters and ER-2020 (I & II Year) \nDecember - 2026 - Notification & Center List",
+      "date": "2026-11-04T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/Diploma Supply Notification DEC-2026.pdf",
+      "type": "Pre-Examination",
+      "timestamp": "2026-11-04T18:15:10.21"
+    },
     {
       "id": "2067",
       "title": "Typewriting and Shorthand Notification January 2027",
