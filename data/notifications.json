@@ -1,7 +1,15 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-08T07:19:09.349Z",
+  "fetchedAt": "2026-11-08T14:25:41.992Z",
   "items": [
+    {
+      "id": "2069",
+      "title": "RV and CA - Board Diploma MID Examination for C24 III, IV semesters and C26 AME I sem Sept 2026",
+      "date": "2026-11-08T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/RV and CA Notification SEPT - 26.pdf",
+      "type": "Post-Examination",
+      "timestamp": "2026-11-08T14:17:30.037"
+    },
     {
       "id": "2068",
       "title": "Diploma Supplementary Examinations C-21 Scheme I, II, III, IV, V,VI semesters, C-24 Scheme I,II, III, IV Semesters and ER-2020 (I & II Year) \nDecember - 2026 - Notification & Center List",
