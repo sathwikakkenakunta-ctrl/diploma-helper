@@ -1,7 +1,55 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-11T03:02:19.127Z",
+  "fetchedAt": "2026-11-11T10:56:05.129Z",
   "items": [
+    {
+      "id": "2075",
+      "title": "Handouts of C-24 EC-501 UNIT-6",
+      "date": "2026-11-11T00:00:00",
+      "url": "https://sbtet.telangana.gov.in/downloads/Circular/C24 EC 501 CHAPTER 6.pdf",
+      "type": "Academic",
+      "timestamp": "2026-11-11T16:06:57.567"
+    },
+    {
+      "id": "2074",
+      "title": "Handouts of C-24 EC-501 UNIT-5",
+      "date": "2026-11-11T00:00:00",
+      "url": "https://sbtet.telangana.gov.in/downloads/Circular/C24 EC 501 CHAPTER 5.pdf",
+      "type": "Academic",
+      "timestamp": "2026-11-11T16:05:59.587"
+    },
+    {
+      "id": "2073",
+      "title": "Handouts of C-24 ME-501 UNIT-6",
+      "date": "2026-11-11T00:00:00",
+      "url": "https://sbtet.telangana.gov.in/downloads/Circular/C24 ME-501 CHAPTER 6.pdf",
+      "type": "Academic",
+      "timestamp": "2026-11-11T16:05:18.623"
+    },
+    {
+      "id": "2072",
+      "title": "Handouts of C-24 ME-501 UNIT-5",
+      "date": "2026-11-11T00:00:00",
+      "url": "https://sbtet.telangana.gov.in/downloads/Circular/C24 ME-501 CHAPTER 5.pdf",
+      "type": "Academic",
+      "timestamp": "2026-11-11T16:04:37.37"
+    },
+    {
+      "id": "2071",
+      "title": "Letter regarding Circulation of Handouts for ME-501: IME & Startups and EC-501: Entrepreneurship & Startups (Chapters 5 and 6) under the C-24 Curriculum for students appearing in Open Book Examinations",
+      "date": "2026-11-11T00:00:00",
+      "url": "https://sbtet.telangana.gov.in/downloads/Circular/open book letter.pdf",
+      "type": "Academic",
+      "timestamp": "2026-11-11T16:03:25.13"
+    },
+    {
+      "id": "2070",
+      "title": "BNPL Letter for END SEM Exams, NOV - 2026",
+      "date": "2026-11-11T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/BNPL Letter for END SEM Exams, NOV-2026.pdf",
+      "type": "Post-Examination",
+      "timestamp": "2026-11-11T11:11:13.513"
+    },
     {
       "id": "2069",
       "title": "RV and CA - Board Diploma MID Examination for C24 III, IV semesters and C26 AME I sem Sept 2026",
