@@ -1,6 +1,6 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-12T00:55:24.059Z",
+  "fetchedAt": "2026-11-12T07:58:12.894Z",
   "items": [
     {
       "id": "2075",
@@ -17,14 +17,6 @@
       "url": "https://sbtet.telangana.gov.in/downloads/Circular/C24 EC 501 CHAPTER 5.pdf",
       "type": "Academic",
       "timestamp": "2026-11-11T16:05:59.587"
-    },
-    {
-      "id": "2072",
-      "title": "Handouts of C-24 ME-501 UNIT-5",
-      "date": "2026-11-11T00:00:00",
-      "url": "https://sbtet.telangana.gov.in/downloads/Circular/C24 ME-501 CHAPTER 5.pdf",
-      "type": "Academic",
-      "timestamp": "2026-11-11T16:04:37.37"
     },
     {
       "id": "2071",
