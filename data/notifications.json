@@ -1,7 +1,15 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-13T02:50:33.879Z",
+  "fetchedAt": "2026-11-13T10:33:33.839Z",
   "items": [
+    {
+      "id": "2078",
+      "title": "DGP Letter for Diploma Regular End Semester Examinations, November-2026",
+      "date": "2026-11-13T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/DGP Letter End Exams Nov-2026.pdf",
+      "type": "Pre-Examination",
+      "timestamp": "2026-11-13T11:38:45.743"
+    },
     {
       "id": "2077",
       "title": "Revised Handouts of C-24 ME-501 UNIT-6",
