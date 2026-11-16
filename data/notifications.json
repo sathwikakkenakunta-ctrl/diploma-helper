@@ -1,7 +1,15 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-15T15:22:29.667Z",
+  "fetchedAt": "2026-11-16T07:02:23.750Z",
   "items": [
+    {
+      "id": "2079",
+      "title": "Extension of Fee Payment for the Diploma Supplementary Examination – December 2026",
+      "date": "2026-11-15T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/SUPPLY DEC-2026 FEE EXTENSIOIN DRAFT.pdf",
+      "type": "Pre-Examination",
+      "timestamp": "2026-11-15T21:31:54.07"
+    },
     {
       "id": "2078",
       "title": "DGP Letter for Diploma Regular End Semester Examinations, November-2026",
