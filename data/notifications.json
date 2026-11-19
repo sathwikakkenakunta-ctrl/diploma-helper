@@ -1,7 +1,15 @@
 {
   "source": "https://www.sbtet.telangana.gov.in/api/api/AdminService/getCircularsActive",
-  "fetchedAt": "2026-11-19T04:22:24.427Z",
+  "fetchedAt": "2026-11-19T13:43:02.656Z",
   "items": [
+    {
+      "id": "2080",
+      "title": "Diploma Supplementary Examinations for C-21 Scheme, C-24 Scheme and ER-2020 - Time Table December - 2026",
+      "date": "2026-11-19T00:00:00",
+      "url": "https://www.sbtet.telangana.gov.in/downloads/Circular/Diploma Supplementary Examinations_Time Table December - 2026.pdf",
+      "type": "Pre-Examination",
+      "timestamp": "2026-11-19T17:25:23.547"
+    },
     {
       "id": "2079",
       "title": "Extension of Fee Payment for the Diploma Supplementary Examination – December 2026",
